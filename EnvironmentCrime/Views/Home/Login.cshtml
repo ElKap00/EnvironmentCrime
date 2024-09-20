@@ -3,7 +3,7 @@
 <h2>Inloggning för Småstads personal</h2>
 <p class="info">En säker tjänst från Småstads IT-avdelning</p>
 
-<form method="post" action="coordinator/startCoordinator.html">
+<form method="post" asp-controller="Coordinator" asp-action="StartCoordinator">
 	<p>
 		<input type="hidden" name="isSubmitted" value="true" />
 	</p>
@@ -16,9 +16,10 @@
 		<input type="password" name="password" />
 	</p>
 	<p>
-		<input class="button" type="submit" value="Inloggning av samordnare" />
+		<input class="button" type="submit" value="Log in" />
 		<br />
 		<!--Dessa länkar ska tas bort i uppgift 5 eftersom vi då fixar till att inloggningen hämtar rätt sida utifrån rollen-->
+		<a class="button" asp-controller="Coordinator" asp-action="StartCoordinator">Inloggning av samordnare</a><br />
 		<a class="button" asp-controller="Manager" asp-action="StartManager">Inloggning av chefer</a><br />
 		<a class="button" asp-controller="Investigator" asp-action="StartInvestigator">Inloggning av handläggare</a>
 	</p>
