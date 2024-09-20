@@ -1,5 +1,4 @@
-﻿<!-- Views/Citizen/_CitizenLayout.cshtml -->
-@{
+﻿@{
     Layout = "_BaseLayout";
 }
 
@@ -10,7 +9,7 @@
             <li><a asp-controller="Citizen" asp-action="Services">Tjänster</a></li>
             <li><a asp-controller="Citizen" asp-action="Faq">FAQ</a></li>
             <li><a asp-controller="Citizen" asp-action="Contact">Kontakt</a></li>
-            <li class="right"><a asp-controller="Citizen" asp-action="Login">Logga in (endast personal)</a></li>
+            <li class="right"><a class="login" asp-controller="Citizen" asp-action="Login">Logga in (endast personal)</a></li>
         </ul>
     </nav><!-- End nav -->
 }
