@@ -1,0 +1,15 @@
+﻿@{
+	Layout = "_BaseLayout";
+}
+
+@section Navigation {
+    <nav>
+        <ul>
+            <li><a asp-controller="Coordinator" asp-action="StartCoordinator">Start(Ärenden)</a></li>
+            <li><a asp-controller="Coordinator" asp-action="ReportCrime">Rapportera brott</a></li>
+            <li class="right"><a asp-controller="Citizen" asp-action="Login">Logga ut</a></li>
+        </ul>
+    </nav><!-- End nav -->
+}
+
+@RenderBody()

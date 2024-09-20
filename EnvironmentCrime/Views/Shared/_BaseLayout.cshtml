@@ -1,0 +1,27 @@
+﻿<!-- Views/Shared/_BaseLayout.cshtml -->
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+    <meta charset="UTF-8" />
+    <title>@ViewData["Title"] - Småstads kommun</title>
+    <link rel="stylesheet" href="~/css/style.css" />
+</head>
+<body>
+    <div id="wrapper">
+        <header id="logo">
+            <h1>Småstad</h1>
+            <p>Kommunen där vi bryr oss om varandra</p>
+        </header><!-- End header -->
+
+        @RenderSection("Navigation", required: true)
+
+        <div id="content">
+            @RenderBody()
+            <footer>
+                &copy; Småstads Kommun All rights reserved.
+            </footer>
+        </div><!-- End content -->
+
+    </div><!-- End wrapper -->
+</body>
+</html>
