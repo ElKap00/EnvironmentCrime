@@ -5,6 +5,13 @@ namespace EnvironmentCrime.Controllers
 {
     public class CoordinatorController : Controller
     {
+        private readonly IEnvironmentCrimeRepository repository;
+
+        public CoordinatorController(IEnvironmentCrimeRepository repo)
+        {
+            repository = repo;
+        }
+
         public ViewResult CrimeCoordinator()
         {
             return View();
@@ -17,7 +24,7 @@ namespace EnvironmentCrime.Controllers
 
         public ViewResult StartCoordinator()
         {
-            return View();
+            return View(repository);
         }
 
         public ViewResult Thanks()

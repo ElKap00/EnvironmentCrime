@@ -1,7 +1,10 @@
+using EnvironmentCrime.Models;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+builder.Services.AddTransient<IEnvironmentCrimeRepository, FakeEnvironmentCrimeRepository>();
 
 var app = builder.Build();
 
