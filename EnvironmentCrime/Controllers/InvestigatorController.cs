@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using EnvironmentCrime.Models;
 
 namespace EnvironmentCrime.Controllers
 {
