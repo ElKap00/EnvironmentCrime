@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using EnvironmentCrime.Models;
+using EnvironmentCrime.ViewModels;
 
 namespace EnvironmentCrime.Controllers
 {
@@ -24,7 +25,13 @@ namespace EnvironmentCrime.Controllers
 
         public ViewResult StartCoordinator()
         {
-            return View(repository);
+            var viewModel = new StartCoordinatorViewModel
+            {
+                ErrandStatuses = repository.ErrandStatuses,
+                Departments = repository.Departments,
+                Errands = repository.Errands
+            };
+            return View(viewModel);
         }
 
         public ViewResult Thanks()
