@@ -36,5 +36,10 @@ namespace EnvironmentCrime.Models
             new Employee { EmployeeId = "E401", EmployeeName = "Oskar Jansson", RoleTitle = "investigator", DepartmentId = "D02" },
             new Employee { EmployeeId = "E501", EmployeeName = "Susanne Strid", RoleTitle = "investigator", DepartmentId = "D03" },
         }.AsQueryable<Employee>();
-    }
+
+        public Task<Errand> GetErrandById(string id)
+		{
+			return Task.Run(() => Errands.FirstOrDefault(e => e.ErrandId == id));
+		}
+	}
 }

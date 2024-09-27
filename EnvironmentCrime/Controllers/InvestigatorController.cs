@@ -13,9 +13,10 @@ namespace EnvironmentCrime.Controllers
 			repository = repo;
 		}
 
-		public ViewResult CrimeInvestigator()
+		public ViewResult CrimeInvestigator(string id)
         {
-            return View();
+			ViewBag.ID = id;
+			return View();
         }
 
         public ViewResult StartInvestigator()
