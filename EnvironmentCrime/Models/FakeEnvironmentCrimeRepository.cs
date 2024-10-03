@@ -39,7 +39,7 @@ namespace EnvironmentCrime.Models
 
         public Task<Errand> GetErrandById(string id)
 		{
-			return Task.Run(() => Errands.FirstOrDefault(e => e.ErrandId == id));
+			return Task.Run(() => Errands.FirstOrDefault(e => e.ErrandId == id)!);
 		}
 	}
 }
