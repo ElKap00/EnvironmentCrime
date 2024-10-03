@@ -1,5 +1,5 @@
-﻿@{
-}
+﻿@model IEnumerable<Department>
+
 <h2>Detaljer för ärendet</h2>
 <p class="info">Du är inloggad som samordnare</p>
 
@@ -11,12 +11,10 @@
 		Ange enhet:
 		<select name="department">
 			<option selected="selected">Välj</option>
-			<option value="unit0">Småstads Kommun</option>
-			<option value="unit1">Tekniska Avloppshantering</option>
-			<option value="unit2">Klimat och Energi</option>
-			<option value="unit3">Miljö och Hälsoskydd</option>
-			<option value="unit4">Natur och Skogsvård</option>
-			<option value="unit5">Renhållning och Avfall</option>
+			@foreach (Department department in Model)
+			{
+				<option value="@department.DepartmentId">@department.DepartmentName</option>
+			})
 		</select>
 	</p>
 	<p><input class="button" type="submit" value="Spara" /></p>

@@ -1,5 +1,5 @@
-﻿@{
-}
+﻿@model IEnumerable<ErrandStatus>
+
 <h2>Detaljer för ärendet</h2>
 <p class="info">Du är inloggad som handläggare</p>
 
@@ -23,10 +23,10 @@
 	<p class="label">Ändring av status:</p>
 	<select name="status">
 		<option selected="selected">Välj</option>
-		<option value="stat1">Inrapporterad</option>
-		<option value="stat2">Ingen Åtgärd</option>
-		<option value="stat3">Påbörjad</option>
-		<option value="stat4">Klar</option>
+		@foreach (ErrandStatus status in Model)
+		{
+			<option value="@status.StatusId">@status.StatusName</option>
+		})
 	</select>
 
 	<p>

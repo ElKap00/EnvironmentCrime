@@ -1,5 +1,5 @@
-﻿@{
-}
+﻿@model IEnumerable<Employee>
+
 <h2>Detaljer för ärendet</h2>
 <p class="info">Du är inloggad som avdelningschef</p>
 
@@ -11,11 +11,10 @@
 		Ange handläggare:
 		<select name="investigator">
 			<option selected="selected">Välj</option>
-			<option value="inv1">Ada Bengtsson</option>
-			<option value="inv2">Bengt Cederström</option>
-			<option value="inv3">Cecilia Danielsson</option>
-			<option value="inv4">David Ekström</option>
-			<option value="inv5">Erik Falkenberg</option>
+			@foreach (Employee employee in Model)
+			{
+				<option value="@employee.EmployeeId">@employee.EmployeeName</option>
+			})
 		</select>
 	</p>
 	<p><input type="checkbox" name="noAction" value="true" /> Ingen åtgärd: <input type="text" name="reason" value="Ange motivering" /></p>
