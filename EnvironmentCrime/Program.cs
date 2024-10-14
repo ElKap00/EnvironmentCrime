@@ -1,12 +1,21 @@
 using EnvironmentCrime.Models;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
-builder.Services.AddTransient<IEnvironmentCrimeRepository, FakeEnvironmentCrimeRepository>();
+builder.Services.AddTransient<IEnvironmentCrimeRepository, EFEnvironmentCrimeRepository>();
+builder.Services.AddDbContext<ApplicationDbContext>(options => 
+options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 var app = builder.Build();
+
+using (var scope = app.Services.CreateScope())
+{
+	var services = scope.ServiceProvider;
+	DBInitializer.EnsurePopulated(services);
+}
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())

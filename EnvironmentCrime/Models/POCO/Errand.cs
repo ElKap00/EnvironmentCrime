@@ -4,7 +4,8 @@ namespace EnvironmentCrime.Models
 {
     public class Errand
     {
-        public required string ErrandId { get; set; }
+		public int ErrandID { get; set; }
+		public required string RefNumber { get; set; }
 
 		[Required(ErrorMessage = "Ange brottets plats")]
 		[StringLength(100, ErrorMessage = "Platsen får inte vara längre än 100 tecken")]
