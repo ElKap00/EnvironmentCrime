@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using EnvironmentCrime.Models;
 using EnvironmentCrime.ViewModels;
+using EnvironmentCrime.Infrastructure;
 
 namespace EnvironmentCrime.Controllers
 {
@@ -21,8 +22,16 @@ namespace EnvironmentCrime.Controllers
 
         public ViewResult ReportCrime()
         {
-            return View();
-        }
+            var errand = HttpContext.Session.Get<Errand>("NewErrand");
+			if (errand == null)
+			{
+				return View();
+			}
+			else
+			{
+				return View(errand);
+			}
+		}
 
         public ViewResult StartCoordinator()
         {
@@ -37,12 +46,15 @@ namespace EnvironmentCrime.Controllers
 
         public ViewResult Thanks()
         {
-            return View();
+			//TODO: Save the errand in the database
+			HttpContext.Session.Remove("NewErrand");
+			return View();
         }
 
 		[HttpPost]
 		public ViewResult Validate(Errand errand)
 		{
+			HttpContext.Session.Set<Errand>("NewErrand", errand);
 			return View(errand);
 		}
 	}

@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using EnvironmentCrime.Models;
 using System.Reflection;
+using EnvironmentCrime.Infrastructure;
 
 namespace EnvironmentCrime.Controllers
 {
@@ -8,7 +9,15 @@ namespace EnvironmentCrime.Controllers
     {
         public ViewResult Index()
         {
-            return View();
+            var errand = HttpContext.Session.Get<Errand>("NewErrand");
+			if (errand == null)
+			{
+				return View();
+			}
+			else
+			{
+				return View(errand);
+			}
         }
 
         public ViewResult Login()

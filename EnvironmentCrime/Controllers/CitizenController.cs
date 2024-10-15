@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using EnvironmentCrime.Models;
+using EnvironmentCrime.Infrastructure;
 
 namespace EnvironmentCrime.Controllers
 {
@@ -22,13 +23,16 @@ namespace EnvironmentCrime.Controllers
 
         public ViewResult Thanks()
         {
-            return View();
+			//TODO: Save the errand in the database
+			HttpContext.Session.Remove("NewErrand");
+			return View();
         }
 
         [HttpPost]
 		public ViewResult Validate(Errand errand) 
         {
-            return View(errand);
+            HttpContext.Session.Set<Errand>("NewErrand", errand);
+			return View(errand);
         }
     }
 }
