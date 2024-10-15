@@ -1,4 +1,7 @@
-﻿namespace EnvironmentCrime.Models
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
+
+namespace EnvironmentCrime.Models
 {
 	public class EFEnvironmentCrimeRepository : IEnvironmentCrimeRepository
 	{
@@ -20,9 +23,16 @@
 
 		public bool SaveErrand(Errand errand)
 		{
-			if (errand.RefNumber == null)
+			if (errand.ErrandID == 0)
 			{
+				var sequence = context.Sequences.FirstOrDefault(s => s.Id == 1);
+
+				errand.RefNumber = GetNextRefNumber(sequence!);
+				errand.StatusId = "S_A";
+
 				context.Errands.Add(errand);
+
+				IncreaseSequence(sequence!);
 			}
 			else
 			{
@@ -39,7 +49,21 @@
 				context.Errands.Remove(errand);
 				context.SaveChanges();
 			}
-			return errand;
+			return errand!;
+		}
+
+		private string GetNextRefNumber(Sequence sequence)
+		{
+			int currentYear = DateTime.Now.Year;
+			string referenceNumber = $"{currentYear}-45-{sequence!.CurrentValue}";
+			return referenceNumber;
+		}
+
+		private void IncreaseSequence(Sequence sequence)
+		{
+			sequence!.CurrentValue++;
+			context.Sequences.Update(sequence);
+			context.SaveChanges();
 		}
 	}
 }

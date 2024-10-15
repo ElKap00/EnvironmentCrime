@@ -37,9 +37,19 @@ namespace EnvironmentCrime.Models
             new Employee { EmployeeId = "E501", EmployeeName = "Susanne Strid", RoleTitle = "investigator", DepartmentId = "D03" },
         }.AsQueryable<Employee>();
 
-        public Task<Errand> GetErrandById(string id)
+		public Errand DeleteErrand(string errandId)
+		{
+			throw new NotImplementedException();
+		}
+
+		public Task<Errand> GetErrandById(string id)
 		{
 			return Task.Run(() => Errands.FirstOrDefault(e => e.RefNumber == id)!);
+		}
+
+		public bool SaveErrand(Errand errand)
+		{
+			throw new NotImplementedException();
 		}
 	}
 }

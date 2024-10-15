@@ -6,7 +6,14 @@ namespace EnvironmentCrime.Controllers
 {
     public class CitizenController : Controller
     {
-        public ViewResult Contact()
+		private readonly IEnvironmentCrimeRepository repository;
+
+		public CitizenController(IEnvironmentCrimeRepository repo)
+		{
+			repository = repo;
+		}
+
+		public ViewResult Contact()
         {
             return View();
         }
@@ -23,9 +30,13 @@ namespace EnvironmentCrime.Controllers
 
         public ViewResult Thanks()
         {
-			//TODO: Save the errand in the database
+			var errand = HttpContext.Session.Get<Errand>("NewErrand");
+			if (errand != null)
+			{
+				repository.SaveErrand(errand);
+			}
 			HttpContext.Session.Remove("NewErrand");
-			return View();
+			return View(errand);
         }
 
         [HttpPost]

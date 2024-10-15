@@ -1,4 +1,7 @@
 ﻿@model Errand
+@{
+    var currentDate = DateTime.Now.ToString("yyyy-MM-dd");
+}
 
 <h2>Välkommen att fylla i din anmälan av miljöbrott</h2>
 <p class="info">I Småstad är inga brott för små för att anmälas</p>
@@ -21,7 +24,7 @@
     </p>
     <p>
         <label asp-for="DateOfObservation"></label><br />
-        <input asp-for="DateOfObservation" type="date" /> *
+        <input asp-for="DateOfObservation" type="date" max="@currentDate" /> *
         <span asp-validation-for="DateOfObservation" class="text-danger"></span>
     </p>
     <p>
