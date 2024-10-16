@@ -9,7 +9,7 @@ namespace EnvironmentCrime.Controllers
     {
         public ViewResult Index()
         {
-            var errand = HttpContext.Session.Get<Errand>("NewErrand");
+            var errand = HttpContext.Session.Get<Errand>("CitizenErrand");
 			if (errand == null)
 			{
 				return View();

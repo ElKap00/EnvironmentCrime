@@ -14,7 +14,7 @@ namespace EnvironmentCrime.Controllers
             repository = repo;
         }
 
-        public ViewResult CrimeCoordinator(string id)
+        public ViewResult CrimeCoordinator(int id)
         {
             ViewBag.ID = id;
             return View(repository.Departments);
@@ -22,7 +22,7 @@ namespace EnvironmentCrime.Controllers
 
         public ViewResult ReportCrime()
         {
-            var errand = HttpContext.Session.Get<Errand>("NewErrand");
+            var errand = HttpContext.Session.Get<Errand>("CoordinatorErrand");
 			if (errand == null)
 			{
 				return View();
@@ -46,19 +46,20 @@ namespace EnvironmentCrime.Controllers
 
         public ViewResult Thanks()
         {
-			var errand = HttpContext.Session.Get<Errand>("NewErrand");
+			var errand = HttpContext.Session.Get<Errand>("CoordinatorErrand");
 			if (errand != null)
 			{
 				repository.SaveErrand(errand);
+                ViewBag.RefNumber = errand.RefNumber;
 			}
-			HttpContext.Session.Remove("NewErrand");
-			return View(errand);
+			HttpContext.Session.Remove("CoordinatorErrand");
+			return View();
         }
 
 		[HttpPost]
 		public ViewResult Validate(Errand errand)
 		{
-			HttpContext.Session.Set<Errand>("NewErrand", errand);
+			HttpContext.Session.Set<Errand>("CoordinatorErrand", errand);
 			return View(errand);
 		}
 	}
