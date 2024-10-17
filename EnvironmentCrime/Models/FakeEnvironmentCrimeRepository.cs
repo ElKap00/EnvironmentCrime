@@ -42,9 +42,9 @@ namespace EnvironmentCrime.Models
 			throw new NotImplementedException();
 		}
 
-		public Task<Errand> GetErrandById(string id)
+		public Task<Errand> GetErrandById(int id)
 		{
-			return Task.Run(() => Errands.FirstOrDefault(e => e.RefNumber == id)!);
+			return Task.Run(() => Errands.FirstOrDefault(e => e.ErrandID == id)!);
 		}
 
 		public bool SaveErrand(Errand errand)

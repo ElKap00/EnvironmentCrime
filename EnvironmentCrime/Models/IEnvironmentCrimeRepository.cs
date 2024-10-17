@@ -10,7 +10,7 @@ namespace EnvironmentCrime.Models
         IQueryable<ErrandStatus> ErrandStatuses { get; }
         IQueryable<Employee> Employees { get; }
 
-        Task<Errand> GetErrandById(string errandId);
+        Task<Errand> GetErrandById(int errandId);
 
 		//Create & Update
 		bool SaveErrand(Errand errand);

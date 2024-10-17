@@ -16,8 +16,10 @@ namespace EnvironmentCrime.Controllers
 
         public ViewResult CrimeCoordinator(int id)
         {
-            ViewBag.ID = id;
-            return View(repository.Departments);
+            var errand = repository.GetErrandById(id).Result;
+			ViewBag.ID = id;
+			ViewBag.ListOfDepartments = repository.Departments.Skip(1);
+			return View(errand);
         }
 
         public ViewResult ReportCrime()
@@ -61,6 +63,18 @@ namespace EnvironmentCrime.Controllers
 		{
 			HttpContext.Session.Set<Errand>("CoordinatorErrand", errand);
 			return View(errand);
+		}
+
+        public IActionResult UpdateDepartment(int id, string departmentId)
+		{
+            var errand = repository.GetErrandById(id).Result;
+			if (errand != null)
+			{
+				errand.DepartmentId = departmentId;
+				repository.SaveErrand(errand);
+			}
+
+			return RedirectToAction("CrimeCoordinator", new {id});
 		}
 	}
 }

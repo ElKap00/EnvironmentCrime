@@ -13,12 +13,12 @@ namespace EnvironmentCrime.Models
 
 		public IQueryable<Department> Departments => context.Departments;
 		public IQueryable<Employee> Employees => context.Employees;
-		public IQueryable<Errand> Errands => context.Errands;
+		public IQueryable<Errand> Errands => context.Errands.Include(e => e.Pictures).Include(e => e.Samples);
 		public IQueryable<ErrandStatus> ErrandStatuses => context.ErrandStatuses;
 
-		public Task<Errand> GetErrandById(string id)
+		public Task<Errand> GetErrandById(int id)
 		{
-			return Task.Run(() => Errands.FirstOrDefault(e => e.RefNumber == id)!);
+			return Task.Run(() => Errands.FirstOrDefault(e => e.ErrandID == id)!);
 		}
 
 		public bool SaveErrand(Errand errand)

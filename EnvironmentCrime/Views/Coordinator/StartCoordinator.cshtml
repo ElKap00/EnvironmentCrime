@@ -1,4 +1,4 @@
-﻿@model EnvironmentCrime.ViewModels.StartCoordinatorViewModel
+﻿@model StartCoordinatorViewModel
 
 <h2>Ärenden</h2>
 <p class="info">Du är inloggad som samordnare</p>
@@ -15,7 +15,7 @@
         <td>
             <select name="status">
                 <option selected="selected">Välj alla</option>
-                @foreach (ErrandStatus status in Model.ErrandStatuses)
+                @foreach (ErrandStatus status in Model.ErrandStatuses!)
                 {
                     <option value="@status.StatusId">@status.StatusName</option>
                 })
@@ -24,7 +24,7 @@
         <td>
             <select name="department">
                 <option selected="selected">Välj alla</option>
-                @foreach (Department department in Model.Departments)
+                @foreach (Department department in Model.Departments!)
                 {
                     <option value="@department.DepartmentId">@department.DepartmentName</option>
                 })
@@ -46,7 +46,7 @@
         <th>Avdelning</th>
         <th>Handläggare</th>
     </tr>
-    @foreach (Errand errand in Model.Errands)
+    @foreach (Errand errand in Model.Errands!)
     {
         <tr>
             <td>@errand.DateOfObservation.ToString("yyyy-MM-dd")</td>

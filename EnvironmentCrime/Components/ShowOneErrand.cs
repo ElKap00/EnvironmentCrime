@@ -13,7 +13,7 @@ namespace EnvironmentCrime.Components
 			repository = repo;
 		}
 
-		public async Task<IViewComponentResult> InvokeAsync(string id)
+		public async Task<IViewComponentResult> InvokeAsync(int id)
 		{
 			var errand = await repository.GetErrandById(id);
 			return View(errand);
