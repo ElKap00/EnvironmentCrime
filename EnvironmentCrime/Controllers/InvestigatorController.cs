@@ -47,8 +47,11 @@ namespace EnvironmentCrime.Controllers
 			{
 				errand.InvestigatorInfo += "\n" + InvestigatorInfo;
 				errand.InvestigatorAction +=  "\n" + InvestigatorAction;
-                errand.StatusId = model.StatusId;
-
+                if (model.StatusId != "Välj")
+                {
+                    errand.StatusId = model.StatusId;
+                }
+				
                 if (loadSample != null && loadSample.Length > 0)
                 {
                     var sampleName = await SaveFile(loadSample, "ErrandSamples");

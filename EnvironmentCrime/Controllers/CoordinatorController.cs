@@ -70,7 +70,7 @@ namespace EnvironmentCrime.Controllers
 		{
 			int errandID = (int)TempData["ID"]!;
 			var errand = repository.GetErrandById(errandID).Result;
-			if (errand != null)
+			if (errand != null && departmentId != "Välj")
 			{
 				errand.DepartmentId = departmentId;
 				repository.SaveErrand(errand);
