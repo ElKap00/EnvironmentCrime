@@ -20,6 +20,7 @@ namespace EnvironmentCrime.Controllers
         {
 			var errand = repository.GetErrandById(id).Result;
             ViewBag.ErrandID = id;
+            TempData["ID"] = id;
 			ViewBag.ListOfStatuses = repository.ErrandStatuses;
 			ViewBag.StatusID = errand.StatusId;
 
@@ -39,7 +40,8 @@ namespace EnvironmentCrime.Controllers
 		[HttpPost]
         public async Task<IActionResult> UpdateErrand(Errand model,string InvestigatorAction,string InvestigatorInfo, IFormFile loadSample, IFormFile loadImage)
 		{
-			var errand = repository.GetErrandById(model.ErrandID).Result;
+            int errandID = (int)TempData["ID"]!;
+			var errand = repository.GetErrandById(errandID).Result;
 
             if (errand != null)
 			{
@@ -70,7 +72,7 @@ namespace EnvironmentCrime.Controllers
                 repository.SaveErrand(errand);
             }
 
-            return RedirectToAction("CrimeInvestigator", new { id = model.ErrandID });
+            return RedirectToAction("CrimeInvestigator", new { id = errandID });
         }
 
         private async Task<string> SaveFile(IFormFile loadFile, string folderName)

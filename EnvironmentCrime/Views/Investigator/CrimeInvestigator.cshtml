@@ -8,7 +8,6 @@
 <section id="bottomColumn">
 	<h3>Redigera ärende</h3>
 	<form asp-controller="Investigator" asp-action="UpdateErrand" method="post" enctype="multipart/form-data" multiple>
-        <input type="hidden" asp-for="ErrandID" />
         <p class="label">Ytterligare information:</p>
         <textarea name="InvestigatorInfo" rows="5" cols="60"></textarea>
 

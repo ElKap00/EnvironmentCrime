@@ -15,7 +15,6 @@
 <section id="bottomColumn">
 	<h3>Redigera ärende</h3>
 	<form asp-controller="Manager" asp-action="UpdateErrand" method="post">
-        <input type="hidden" asp-for="ErrandID" />
         <p>
             Ange handläggare:
             <select asp-for="EmployeeId" asp-items="@(new SelectList(ViewBag.ListOfEmployees, "EmployeeId", "EmployeeName"))">

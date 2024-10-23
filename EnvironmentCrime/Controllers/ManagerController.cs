@@ -17,7 +17,8 @@ namespace EnvironmentCrime.Controllers
         {
             var errand = repository.GetErrandById(id).Result;
             ViewBag.ErrandID = id;
-            ViewBag.StatusID = errand.StatusId;
+            TempData["ID"] = id;
+			ViewBag.StatusID = errand.StatusId;
             ViewBag.ListOfEmployees = repository.Employees;
             var viewModel = new UpdateErrandManagerViewModel
             {
@@ -42,7 +43,8 @@ namespace EnvironmentCrime.Controllers
         [HttpPost]
         public IActionResult UpdateErrand(UpdateErrandManagerViewModel model)
 		{
-            var errand = repository.GetErrandById(model.ErrandID).Result;
+            int errandID = (int)TempData["ID"]!;
+			var errand = repository.GetErrandById(errandID).Result;
             if (errand != null)
             {
                 if (model.NoAction)
@@ -59,7 +61,7 @@ namespace EnvironmentCrime.Controllers
                 }
                 repository.SaveErrand(errand);
             }
-            return RedirectToAction("CrimeManager", new { id = model.ErrandID });
+            return RedirectToAction("CrimeManager", new { id = errandID });
         }
 	}
 }
