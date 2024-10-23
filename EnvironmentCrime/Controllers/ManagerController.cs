@@ -20,13 +20,8 @@ namespace EnvironmentCrime.Controllers
             TempData["ID"] = id;
 			ViewBag.StatusID = errand.StatusId;
             ViewBag.ListOfEmployees = repository.Employees;
-            var viewModel = new UpdateErrandManagerViewModel
-            {
-                ErrandID = errand.ErrandID,
-                EmployeeId = errand.EmployeeId,
-                Reason = errand.InvestigatorInfo ?? string.Empty
-            };
-            return View(viewModel);
+
+            return View(errand);
         }
 
         public ViewResult StartManager()
@@ -41,23 +36,22 @@ namespace EnvironmentCrime.Controllers
         }
 
         [HttpPost]
-        public IActionResult UpdateErrand(UpdateErrandManagerViewModel model)
+        public IActionResult UpdateErrand(Errand model, bool NoAction, string Reason)
 		{
             int errandID = (int)TempData["ID"]!;
 			var errand = repository.GetErrandById(errandID).Result;
             if (errand != null)
             {
-                if (model.NoAction)
+                if (NoAction)
                 {
                     errand.StatusId = "S_B";
                     errand.EmployeeId = null;
-                    errand.InvestigatorInfo = model.Reason ?? "Ingen kommentar";
+                    errand.InvestigatorInfo = Reason ?? "Ingen kommentar";
                 }
                 else
                 {
                     errand.StatusId = "S_A";
                     errand.EmployeeId = model.EmployeeId;
-                    errand.InvestigatorInfo = null;
                 }
                 repository.SaveErrand(errand);
             }

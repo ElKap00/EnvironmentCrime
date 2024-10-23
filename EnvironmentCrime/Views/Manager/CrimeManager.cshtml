@@ -1,4 +1,4 @@
-﻿@model UpdateErrandManagerViewModel
+﻿@model Errand
 @{
     bool noAction = false;
     if (ViewBag.StatusId == "S_B")
@@ -22,8 +22,8 @@
             </select>
         </p>
         <p>
-            <input type="checkbox" asp-for="NoAction" value="true" checked="@noAction" /> Ingen åtgärd:
-            <input type="text" asp-for="Reason" />
+            <input type="checkbox" name="NoAction" value="true" checked="@noAction" /> Ingen åtgärd:
+            <input type="text" name="Reason" />
         </p>
         <p><input class="button" type="submit" value="Spara" /></p>
 	</form>
