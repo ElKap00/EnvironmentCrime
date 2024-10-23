@@ -49,7 +49,7 @@ namespace EnvironmentCrime.Controllers
                 {
                     errand.StatusId = "S_B";
                     errand.EmployeeId = null;
-                    errand.InvestigatorInfo = model.Reason;
+                    errand.InvestigatorInfo = model.Reason ?? "Ingen kommentar";
                 }
                 else
                 {

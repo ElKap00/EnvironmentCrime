@@ -1,35 +1,34 @@
-﻿@model IEnumerable<ErrandStatus>
+﻿@model Errand
 
 <h2>Detaljer för ärendet</h2>
 <p class="info">Du är inloggad som handläggare</p>
 
-@await Component.InvokeAsync("ShowOneErrand", ViewBag.id)
+@await Component.InvokeAsync("ShowOneErrand", ViewBag.ErrandId)
 
 <section id="bottomColumn">
 	<h3>Redigera ärende</h3>
+	<form asp-controller="Investigator" asp-action="UpdateErrand" method="post" enctype="multipart/form-data" multiple>
+        <input type="hidden" asp-for="ErrandID" />
+        <p class="label">Ytterligare information:</p>
+        <textarea name="InvestigatorInfo" rows="5" cols="60"></textarea>
 
-	<p class="label">Ytterligare information:</p>
-	<textarea name="information" rows="5" cols="60"></textarea>
+        <p class="label">Händelser:</p>
+        <textarea name="InvestigatorAction" rows="5" cols="60"></textarea>
 
-	<p class="label">Händelser:</p>
-	<textarea name="events" rows="5" cols="60"></textarea>
+        <p class="label">Prover:</p>
+        <input asp-for="Samples" type="file" name="loadSample" />
 
-	<p class="label">Prover:</p>
-	<input type="file" name="loadSample" />
+        <p class="label">Ladda upp bilder:</p>
+        <input asp-for="Pictures" type="file" name="loadImage" />
 
-	<p class="label">Ladda upp bilder:</p>
-	<input type="file" name="loadImage" />
+        <p class="label">Ändring av status:</p>
+        <select asp-for="StatusId" asp-items="@(new SelectList(ViewBag.ListOfStatuses, "StatusId", "StatusName"))">
+            <option selected="selected">Välj</option>
+        </select>
 
-	<p class="label">Ändring av status:</p>
-	<select name="status">
-		<option selected="selected">Välj</option>
-		@foreach (ErrandStatus status in Model)
-		{
-			<option value="@status.StatusId">@status.StatusName</option>
-		})
-	</select>
+        <p>
+            <input class="button" type="submit" value="Spara ändringarna" />
+        </p>
+	</form>
 
-	<p>
-		<input class="button" type="submit" value="Spara ändringarna" />
-	</p>
 </section>

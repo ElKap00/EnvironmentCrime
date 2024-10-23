@@ -45,18 +45,40 @@
 	</p>
 	<p>
 		<span class="label">Ytterligare information: </span><br />
-		
+		@Model.InvestigatorInfo
 	</p>
 	<p>
 		<span class="label">Händelser: </span><br />
-		
+		@Model.InvestigatorAction
 	</p>
 	<p>
 		<span class="label">Provtagning: </span><br />
-		Provtagning.pdf
+		@if (Model.Samples != null && Model.Samples.Any())
+		{
+			@foreach (var sample in Model.Samples)
+			{
+				<a href="~/ErrandSamples/@sample.SampleName" target="_blank">@sample.SampleName</a>
+
+				<br />
+			}
+		}
+		else
+		{
+			<span>Inga provtagningar tillgängliga</span>
+		}
 	</p>
 	<p>
 		<span class="label">Bilder: </span><br />
-		<img src="~/images/imagetest.jpg" alt="klicka på bilden" />
+		@if (Model.Pictures != null && Model.Pictures.Any())
+		{
+			@foreach (var picture in Model.Pictures)
+			{
+				<a href="~/ErrandImages/@picture.PictureName" target="_blank">@picture.PictureName</a><br />
+			}
+		}
+		else
+		{
+			<span>Inga bilder tillgängliga</span>
+		}
 	</p>
 </section>
