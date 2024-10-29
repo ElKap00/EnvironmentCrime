@@ -2,10 +2,12 @@
 using EnvironmentCrime.Models;
 using EnvironmentCrime.ViewModels;
 using EnvironmentCrime.Infrastructure;
+using Microsoft.AspNetCore.Authorization;
 
 namespace EnvironmentCrime.Controllers
 {
-    public class CoordinatorController : Controller
+	[Authorize(Roles = "Coordinator")]
+	public class CoordinatorController : Controller
     {
         private readonly IEnvironmentCrimeRepository repository;
 
@@ -14,7 +16,7 @@ namespace EnvironmentCrime.Controllers
             repository = repo;
         }
 
-        public ViewResult CrimeCoordinator(int id)
+		public ViewResult CrimeCoordinator(int id)
         {
             var errand = repository.GetErrandById(id).Result;
 			ViewBag.ID = id;

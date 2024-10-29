@@ -2,9 +2,11 @@
 using EnvironmentCrime.Models;
 using EnvironmentCrime.ViewModels;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Authorization;
 
 namespace EnvironmentCrime.Controllers
 {
+    [Authorize(Roles= "Investigator")]
     public class InvestigatorController : Controller
     {
 		private readonly IEnvironmentCrimeRepository repository;

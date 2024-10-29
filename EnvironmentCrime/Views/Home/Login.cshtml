@@ -1,19 +1,19 @@
-﻿@{
-}
+﻿@model LoginModel
 <h2>Inloggning för Småstads personal</h2>
 <p class="info">En säker tjänst från Småstads IT-avdelning</p>
 
-<form method="post" asp-controller="Coordinator" asp-action="StartCoordinator">
+<form method="post" asp-controller="Home" asp-action="Login">
 	<p>
 		<input type="hidden" name="isSubmitted" value="true" />
+		<input type="hidden" asp-for="ReturnUrl" />
 	</p>
 	<p>
-		<span class="label">Användarnamn:</span><br />
-		<input type="text" name="user" />
+		<span asp-validation-for="UserName" class="label">Användarnamn:</span><br />
+		<input asp-for="UserName" type="text"/>
 	</p>
 	<p>
-		<span class="label">Lösenord:</span><br />
-		<input type="password" name="password" />
+		<span asp-validation-for="Password" class="label">Lösenord:</span><br />
+		<input asp-for="Password" type="password"/>
 	</p>
 	<p>
 		<input class="button" type="submit" value="Log in" />
@@ -23,4 +23,5 @@
 		<a class="button" asp-controller="Manager" asp-action="StartManager">Inloggning av chefer</a><br />
 		<a class="button" asp-controller="Investigator" asp-action="StartInvestigator">Inloggning av handläggare</a>
 	</p>
+	<div asp-validation-summary="All"></div>
 </form>

@@ -1,10 +1,12 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using EnvironmentCrime.Models;
 using EnvironmentCrime.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 
 namespace EnvironmentCrime.Controllers
 {
-    public class ManagerController : Controller
+	[Authorize(Roles = "Manager")]
+	public class ManagerController : Controller
     {
         private readonly IEnvironmentCrimeRepository repository;
 
