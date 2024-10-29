@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using EnvironmentCrime.ViewModels;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace EnvironmentCrime.Models
@@ -64,6 +65,30 @@ namespace EnvironmentCrime.Models
 			sequence!.CurrentValue++;
 			context.Sequences.Update(sequence);
 			context.SaveChanges();
+		}
+
+		public IQueryable<ErrandViewModel> GetAllErrands()
+		{
+			var errandList = from err in context.Errands
+							 join stat in context.ErrandStatuses on err.StatusId equals stat.StatusId
+							 join dep in context.Departments on err.DepartmentId equals dep.DepartmentId
+								into depErrand from dep in depErrand.DefaultIfEmpty()
+							 join emp in context.Employees on err.EmployeeId equals emp.EmployeeId
+								into empErrand from emp in empErrand.DefaultIfEmpty()
+							 orderby err.RefNumber descending
+
+							 select new ErrandViewModel
+							 {
+								 DateOfObservation = err.DateOfObservation,
+								 ErrandID = err.ErrandID,
+								 RefNumber = err.RefNumber,
+								 TypeOfCrime = err.TypeOfCrime,
+								 StatusName = stat.StatusName,
+								 DepartmentName = (err.DepartmentId == null ? "ej tillsatt" : dep.DepartmentName),
+								 EmployeeName = (err.EmployeeId == null ? "ej tillsatt" : emp.EmployeeName)
+							 };
+
+			return errandList;
 		}
 	}
 }

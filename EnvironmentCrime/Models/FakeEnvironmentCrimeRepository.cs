@@ -1,4 +1,5 @@
 ﻿using EnvironmentCrime.Models;
+using EnvironmentCrime.ViewModels;
 
 namespace EnvironmentCrime.Models
 {
@@ -48,6 +49,11 @@ namespace EnvironmentCrime.Models
 		}
 
 		public bool SaveErrand(Errand errand)
+		{
+			throw new NotImplementedException();
+		}
+
+		public IQueryable<ErrandViewModel> GetAllErrands()
 		{
 			throw new NotImplementedException();
 		}

@@ -9,11 +9,13 @@ namespace EnvironmentCrime.Controllers
 	public class ManagerController : Controller
     {
         private readonly IEnvironmentCrimeRepository repository;
+        private IHttpContextAccessor contextAcc;
 
-        public ManagerController(IEnvironmentCrimeRepository repo)
+		public ManagerController(IEnvironmentCrimeRepository repo, IHttpContextAccessor cont)
         {
             repository = repo;
-        }
+			contextAcc = cont;
+		}
 
         public ViewResult CrimeManager(int id)
         {
@@ -26,16 +28,19 @@ namespace EnvironmentCrime.Controllers
             return View(errand);
         }
 
-        public ViewResult StartManager()
-        {
-            var viewModel = new StartManagerViewModel
-            {
-                ErrandStatuses = repository.ErrandStatuses,
-                Employees = repository.Employees,
-                Errands = repository.Errands
-            };
-            return View(viewModel);
-        }
+		public ViewResult StartManager()
+		{
+			var userName = contextAcc.HttpContext?.User?.Identity?.Name;
+			var userDepartmentId = repository.Employees.FirstOrDefault(e => e.EmployeeId == userName)?.DepartmentId;
+            var userDepartmentName = repository.Departments.FirstOrDefault(d => d.DepartmentId == userDepartmentId)?.DepartmentName;
+			var viewModel = new StartManagerViewModel
+			{
+				ErrandStatuses = repository.ErrandStatuses,
+				Employees = repository.Employees.Where(emp => emp.DepartmentId == userDepartmentId),
+				Errands = repository.GetAllErrands().Where(errand => errand.DepartmentName == userDepartmentName)
+			};
+			return View(viewModel);
+		}
 
         [HttpPost]
         public IActionResult UpdateErrand(Errand model, bool NoAction, string Reason)

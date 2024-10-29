@@ -6,6 +6,6 @@ namespace EnvironmentCrime.ViewModels
     {
         public IEnumerable<ErrandStatus>? ErrandStatuses { get; set; }
         public IEnumerable<Department>? Departments { get; set; }
-        public IEnumerable<Errand>? Errands { get; set; }
+        public IEnumerable<ErrandViewModel>? Errands { get; set; }
     }
 }

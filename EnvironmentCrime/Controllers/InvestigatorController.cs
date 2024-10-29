@@ -11,12 +11,14 @@ namespace EnvironmentCrime.Controllers
     {
 		private readonly IEnvironmentCrimeRepository repository;
         private IWebHostEnvironment environment;
+		private IHttpContextAccessor contextAcc;
 
-        public InvestigatorController(IEnvironmentCrimeRepository repo, IWebHostEnvironment env)
+		public InvestigatorController(IEnvironmentCrimeRepository repo, IWebHostEnvironment env, IHttpContextAccessor cont)
 		{
 			repository = repo;
             environment = env;
-        }
+			contextAcc = cont;
+		}
 
 		public ViewResult CrimeInvestigator(int id)
         {
@@ -31,10 +33,12 @@ namespace EnvironmentCrime.Controllers
 
         public ViewResult StartInvestigator()
         {
+			var userName = contextAcc.HttpContext?.User?.Identity?.Name;
+            userName = repository.Employees.FirstOrDefault(e => e.EmployeeId == userName)?.EmployeeName;
 			var viewModel = new StartInvestigatorViewModel
 			{
 				ErrandStatuses = repository.ErrandStatuses,
-				Errands = repository.Errands
+				Errands = repository.GetAllErrands().Where(IHttpContextAccessor => IHttpContextAccessor.EmployeeName == userName)
 			};
 			return View(viewModel);
         }

@@ -11,10 +11,10 @@ namespace EnvironmentCrime.Controllers
     {
         private readonly IEnvironmentCrimeRepository repository;
 
-        public CoordinatorController(IEnvironmentCrimeRepository repo)
+		public CoordinatorController(IEnvironmentCrimeRepository repo)
         {
             repository = repo;
-        }
+		}
 
 		public ViewResult CrimeCoordinator(int id)
         {
@@ -40,14 +40,14 @@ namespace EnvironmentCrime.Controllers
 
         public ViewResult StartCoordinator()
         {
-            var viewModel = new StartCoordinatorViewModel
-            {
-                ErrandStatuses = repository.ErrandStatuses,
-                Departments = repository.Departments,
-                Errands = repository.Errands
-            };
-            return View(viewModel);
-        }
+			var viewModel = new StartCoordinatorViewModel
+			{
+				ErrandStatuses = repository.ErrandStatuses,
+				Departments = repository.Departments,
+				Errands = repository.GetAllErrands()
+			};
+			return View(viewModel);
+		}
 
         public ViewResult Thanks()
         {

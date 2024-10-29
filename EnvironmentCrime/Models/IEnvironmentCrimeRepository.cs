@@ -1,4 +1,5 @@
 ﻿using EnvironmentCrime.Models;
+using EnvironmentCrime.ViewModels;
 
 namespace EnvironmentCrime.Models
 {
@@ -18,5 +19,7 @@ namespace EnvironmentCrime.Models
 		//Delete
 		Errand DeleteErrand(string errandId);
 
+		//Get all errands
+		IQueryable<ErrandViewModel> GetAllErrands();
 	}
 }
