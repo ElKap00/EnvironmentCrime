@@ -90,5 +90,43 @@ namespace EnvironmentCrime.Models
 
 			return errandList;
 		}
+
+		public IQueryable<ErrandViewModel> SearchByRefNumber(string refNumber)
+		{
+			return GetAllErrands().Where(e => e.RefNumber!.Contains(refNumber));
+		}
+
+		public IQueryable<ErrandViewModel> FilterErrands(
+			string? statusName,
+			string? departmentName,
+			string? employeeName)
+		{
+			var filteredErrands = GetAllErrands();
+
+			if (!string.IsNullOrEmpty(statusName))
+			{
+				filteredErrands = filteredErrands.Where(e => e.StatusName == statusName);
+			}
+			if (!string.IsNullOrEmpty(departmentName))
+			{
+				filteredErrands = filteredErrands.Where(e => e.DepartmentName == departmentName);
+			}
+			if (!string.IsNullOrEmpty(employeeName))
+			{
+				filteredErrands = filteredErrands.Where(e => e.EmployeeName == employeeName);
+			}
+
+			return filteredErrands;
+		}
+
+		public IQueryable<ErrandViewModel> SearchByRefNumberAndEmployee(string employeeName, string refNumber)
+		{
+			return GetAllErrands().Where(e => e.EmployeeName == employeeName && e.RefNumber!.Contains(refNumber));
+		}
+
+		public IQueryable<ErrandViewModel> SearchByRefNumberAndDepartment(string departmentName, string refNumber)
+		{
+			return GetAllErrands().Where(e => e.DepartmentName == departmentName && e.RefNumber!.Contains(refNumber));
+		}
 	}
 }

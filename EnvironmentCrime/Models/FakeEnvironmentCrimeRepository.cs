@@ -57,5 +57,30 @@ namespace EnvironmentCrime.Models
 		{
 			throw new NotImplementedException();
 		}
+
+		public IQueryable<ErrandViewModel> SearchByRefNumber(string refNumber)
+		{
+			throw new NotImplementedException();
+		}
+
+		public IQueryable<ErrandViewModel> FilterErrands(string? selectedStatus, string? selectedDepartment, string? selectedEmployee, string? departmentName, string? employeeName)
+		{
+			throw new NotImplementedException();
+		}
+
+		public IQueryable<ErrandViewModel> SearchByRefNumberAndEmployee(string employeeName, string refNumber)
+		{
+			throw new NotImplementedException();
+		}
+
+		public IQueryable<ErrandViewModel> FilterErrands(string? statusName, string? departmentName, string? employeeName)
+		{
+			throw new NotImplementedException();
+		}
+
+		public IQueryable<ErrandViewModel> SearchByRefNumberAndDepartment(string departmentName, string refNumber)
+		{
+			throw new NotImplementedException();
+		}
 	}
 }

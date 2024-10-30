@@ -49,24 +49,16 @@ namespace EnvironmentCrime.Controllers
 			var userDepartmentId = repository.Employees.FirstOrDefault(e => e.EmployeeId == userName)?.DepartmentId;
 			var userDepartmentName = repository.Departments.FirstOrDefault(d => d.DepartmentId == userDepartmentId)?.DepartmentName;
 
-            var filteredErrands = repository.GetAllErrands()
-                .Where(e => e.DepartmentName == userDepartmentName);
+            var filteredErrands = repository.FilterErrands(null, userDepartmentName, null);
 
-            if (!string.IsNullOrEmpty(model.RefNumber))
+			if (!string.IsNullOrEmpty(model.RefNumber))
             {
-                filteredErrands = filteredErrands.Where(e => e.RefNumber.Contains(model.RefNumber));
-            }
+                filteredErrands = repository.SearchByRefNumberAndDepartment(userDepartmentName!, model.RefNumber);
+			}
             else
             {
-                if (!string.IsNullOrEmpty(model.SelectedStatus))
-                {
-                    filteredErrands = filteredErrands.Where(e => e.StatusName == model.SelectedStatus);
-                }
-                if (!string.IsNullOrEmpty(model.SelectedEmployee))
-                {
-                    filteredErrands = filteredErrands.Where(e => e.EmployeeName == model.SelectedEmployee);
-                }
-            }
+				filteredErrands = repository.FilterErrands(model.SelectedStatus, userDepartmentName, model.SelectedEmployee);
+			}
 
 			if (filteredErrands.Count() == 0)
 			{

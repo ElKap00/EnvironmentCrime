@@ -21,5 +21,20 @@ namespace EnvironmentCrime.Models
 
 		//Get all errands
 		IQueryable<ErrandViewModel> GetAllErrands();
+
+		//Search by reference number
+		IQueryable<ErrandViewModel> SearchByRefNumber(string refNumber);
+
+		//Filter
+		IQueryable<ErrandViewModel> FilterErrands(
+			string? statusName,
+			string? departmentName,
+			string? employeeName);
+
+		//Search errands by reference number and employee
+		IQueryable<ErrandViewModel> SearchByRefNumberAndEmployee(string employeeName, string refNumber);
+
+		//Search errands by reference number and department
+		IQueryable<ErrandViewModel> SearchByRefNumberAndDepartment(string departmentName, string refNumber);
 	}
 }

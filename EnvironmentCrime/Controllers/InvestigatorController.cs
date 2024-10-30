@@ -48,19 +48,17 @@ namespace EnvironmentCrime.Controllers
         {
 			var userName = contextAcc.HttpContext?.User?.Identity?.Name;
 			userName = repository.Employees.FirstOrDefault(e => e.EmployeeId == userName)?.EmployeeName;
-
-			var filteredErrands = repository.GetAllErrands()
-				.Where(e => e.EmployeeName == userName);
+			var filteredErrands = repository.FilterErrands(null, null, userName);
 
 			if (!string.IsNullOrEmpty(model.RefNumber))
 			{
-				filteredErrands = filteredErrands.Where(e => e.RefNumber.Contains(model.RefNumber));
+				filteredErrands = repository.SearchByRefNumberAndEmployee(userName!, model.RefNumber);
 			}
 			else
 			{
 				if (!string.IsNullOrEmpty(model.SelectedStatus))
 				{
-					filteredErrands = filteredErrands.Where(e => e.StatusName == model.SelectedStatus);
+					filteredErrands = repository.FilterErrands(model.SelectedStatus, null, userName);
 				}
 			}
 
@@ -89,34 +87,43 @@ namespace EnvironmentCrime.Controllers
                 {
                     errand.StatusId = model.StatusId;
                 }
-				
-                if (loadSample != null && loadSample.Length > 0)
-                {
-                    var sampleName = await SaveFile(loadSample, "ErrandSamples");
-                    if (!string.IsNullOrEmpty(sampleName))
-                    {
-                        errand.Samples ??= new List<Sample>();
-                        errand.Samples.Add(new Sample { SampleName = sampleName, ErrandID = errand.ErrandID });
-                    }
-                }
 
-                if (loadImage != null && loadImage.Length > 0)
-                {
-                    var imageName = await SaveFile(loadImage, "ErrandImages");
-                    if (!string.IsNullOrEmpty(imageName))
-                    {
-                        errand.Pictures ??= new List<Picture>();
-                        errand.Pictures.Add(new Picture { PictureName = imageName, ErrandID = errand.ErrandID });
-                    }
-                }
+				await AddSample(errand, loadSample);
+				await AddImage(errand, loadImage);
 
-                repository.SaveErrand(errand);
+				repository.SaveErrand(errand);
             }
 
             return RedirectToAction("CrimeInvestigator", new { id = errandID });
         }
 
-        private async Task<string> SaveFile(IFormFile loadFile, string folderName)
+        private async Task AddImage(Errand errand, IFormFile loadImage)
+        {
+			if (loadImage != null && loadImage.Length > 0)
+			{
+				var imageName = await SaveFile(loadImage, "ErrandImages");
+				if (!string.IsNullOrEmpty(imageName))
+				{
+					errand.Pictures ??= new List<Picture>();
+					errand.Pictures.Add(new Picture { PictureName = imageName, ErrandID = errand.ErrandID });
+				}
+			}
+		}
+
+		private async Task AddSample(Errand errand, IFormFile loadSample)
+		{
+			if (loadSample != null && loadSample.Length > 0)
+			{
+				var sampleName = await SaveFile(loadSample, "ErrandSamples");
+				if (!string.IsNullOrEmpty(sampleName))
+				{
+					errand.Samples ??= new List<Sample>();
+					errand.Samples.Add(new Sample { SampleName = sampleName, ErrandID = errand.ErrandID });
+				}
+			}
+		}
+
+		private async Task<string> SaveFile(IFormFile loadFile, string folderName)
         {
             if (loadFile == null || loadFile.Length == 0)
                 return string.Empty;

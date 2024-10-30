@@ -1,0 +1,40 @@
+﻿@model Errand
+@{
+    var currentDate = DateTime.Now.ToString("yyyy-MM-dd");
+}
+
+<p>
+    <input type="hidden" name="isSubmitted" value="true" />
+</p>
+<p>
+    <label asp-for="Place"></label><br />
+    <input asp-for="Place" /> *
+    <span asp-validation-for="Place" class="text-danger"></span>
+</p>
+<p>
+    <label asp-for="TypeOfCrime"></label><br />
+    <input asp-for="TypeOfCrime" /> *
+    <span asp-validation-for="TypeOfCrime" class="text-danger"></span>
+</p>
+<p>
+    <label asp-for="DateOfObservation"></label><br />
+    <input asp-for="DateOfObservation" type="date" max="@currentDate" /> *
+    <span asp-validation-for="DateOfObservation" class="text-danger"></span>
+</p>
+<p>
+    <label asp-for="InformerName"></label><br />
+    <input asp-for="InformerName" /> *
+    <span asp-validation-for="InformerName" class="text-danger"></span>
+</p>
+<p>
+    <label asp-for="InformerPhone"></label><br />
+    <input asp-for="InformerPhone" /> *
+    <span asp-validation-for="InformerPhone" class="text-danger"></span>
+</p>
+<p>
+    <label asp-for="Observation"></label><br />
+    <textarea asp-for="Observation" rows="5" cols="16"></textarea>
+</p>
+<p>
+    <input class="button" type="submit" value="Skicka in" />
+</p>

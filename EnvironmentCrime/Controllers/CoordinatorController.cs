@@ -22,6 +22,7 @@ namespace EnvironmentCrime.Controllers
 			ViewBag.ID = id;
 			TempData["ID"] = id;
 			ViewBag.ListOfDepartments = repository.Departments.Skip(1);
+
 			return View(errand);
         }
 
@@ -42,32 +43,26 @@ namespace EnvironmentCrime.Controllers
         {
 			var viewModel = new StartCoordinatorViewModel
 			{
-				ErrandStatuses = repository.ErrandStatuses,
-				Departments = repository.Departments,
-				Errands = repository.GetAllErrands()
+				Errands = repository.GetAllErrands(),
+				ErrandStatuses = repository.ErrandStatuses.ToList(),
+				Departments = repository.Departments.ToList()
 			};
+
 			return View(viewModel);
 		}
 
 		[HttpPost]
 		public IActionResult StartCoordinator(StartCoordinatorViewModel model)
 		{
-			var filteredErrands = repository.GetAllErrands();
+			IQueryable<ErrandViewModel> filteredErrands;
 
 			if (!string.IsNullOrEmpty(model.RefNumber))
 			{
-				filteredErrands = filteredErrands.Where(e => e.RefNumber.Contains(model.RefNumber));
+				filteredErrands = repository.SearchByRefNumber(model.RefNumber);
 			}
 			else
 			{
-				if (!string.IsNullOrEmpty(model.SelectedStatus))
-				{
-					filteredErrands = filteredErrands.Where(e => e.StatusName == model.SelectedStatus);
-				}
-				if (!string.IsNullOrEmpty(model.SelectedDepartment))
-				{
-					filteredErrands = filteredErrands.Where(e => e.DepartmentName == model.SelectedDepartment);
-				}
+				filteredErrands = repository.FilterErrands(model.SelectedStatus, model.SelectedDepartment, null);
 			}
 
 			if (filteredErrands.Count() == 0)
