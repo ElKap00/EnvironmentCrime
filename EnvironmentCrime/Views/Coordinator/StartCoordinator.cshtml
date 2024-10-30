@@ -12,27 +12,25 @@
         <td>&nbsp;</td>
     </tr>
     <tr>
+            <form asp-action="StartCoordinator" method="post">
         <td>
-            <select name="status">
-                <option selected="selected">Välj alla</option>
-                @foreach (ErrandStatus status in Model.ErrandStatuses!)
-                {
-                    <option value="@status.StatusId">@status.StatusName</option>
-                })
-            </select>
+                <select asp-for="SelectedStatus" asp-items="@(new SelectList(Model.ErrandStatuses, "StatusName", "StatusName"))">
+                    <option value="">Välj alla</option>
+                </select>
         </td>
         <td>
-            <select name="department">
-                <option selected="selected">Välj alla</option>
-                @foreach (Department department in Model.Departments!)
-                {
-                    <option value="@department.DepartmentId">@department.DepartmentName</option>
-                })
-            </select>
+                <select asp-for="SelectedDepartment" asp-items="@(new SelectList(Model.Departments, "DepartmentName", "DepartmentName"))">
+                    <option value="">Välj alla</option>
+                </select>
         </td>
         <td><input class="button" type="submit" value="Hämta lista" /></td>
-        <td><input name="casenumber" /></td>
+            </form>
+            <form asp-action="StartCoordinator" method="post">
+        <td>
+                <input asp-for="RefNumber" />
+        </td>
         <td><input class="button" type="submit" value="Sök" /></td>
+            </form>
     </tr>
 </table>
 
@@ -58,3 +56,7 @@
         </tr>
     }
 </table>
+@if (ViewBag.NoErrandsMessage != null)
+{
+    <p class="warning">@ViewBag.NoErrandsMessage</p>
+}

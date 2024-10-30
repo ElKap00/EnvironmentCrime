@@ -49,7 +49,41 @@ namespace EnvironmentCrime.Controllers
 			return View(viewModel);
 		}
 
-        public ViewResult Thanks()
+		[HttpPost]
+		public IActionResult StartCoordinator(StartCoordinatorViewModel model)
+		{
+			var filteredErrands = repository.GetAllErrands();
+
+			if (!string.IsNullOrEmpty(model.RefNumber))
+			{
+				filteredErrands = filteredErrands.Where(e => e.RefNumber.Contains(model.RefNumber));
+			}
+			else
+			{
+				if (!string.IsNullOrEmpty(model.SelectedStatus))
+				{
+					filteredErrands = filteredErrands.Where(e => e.StatusName == model.SelectedStatus);
+				}
+				if (!string.IsNullOrEmpty(model.SelectedDepartment))
+				{
+					filteredErrands = filteredErrands.Where(e => e.DepartmentName == model.SelectedDepartment);
+				}
+			}
+
+			if (filteredErrands.Count() == 0)
+            {
+                ViewBag.NoErrandsMessage = "Inga ärenden matchar din sökning";
+            }
+
+            model.ErrandStatuses = repository.ErrandStatuses.ToList();
+			model.Departments = repository.Departments.ToList();
+			model.Errands = filteredErrands;
+
+			return View(model);
+		}
+
+
+		public ViewResult Thanks()
         {
 			var errand = HttpContext.Session.Get<Errand>("CoordinatorErrand");
 			if (errand != null)

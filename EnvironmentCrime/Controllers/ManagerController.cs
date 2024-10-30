@@ -42,7 +42,45 @@ namespace EnvironmentCrime.Controllers
 			return View(viewModel);
 		}
 
-        [HttpPost]
+		[HttpPost]
+		public IActionResult StartManager(StartManagerViewModel model)
+		{
+			var userName = contextAcc.HttpContext?.User?.Identity?.Name;
+			var userDepartmentId = repository.Employees.FirstOrDefault(e => e.EmployeeId == userName)?.DepartmentId;
+			var userDepartmentName = repository.Departments.FirstOrDefault(d => d.DepartmentId == userDepartmentId)?.DepartmentName;
+
+            var filteredErrands = repository.GetAllErrands()
+                .Where(e => e.DepartmentName == userDepartmentName);
+
+            if (!string.IsNullOrEmpty(model.RefNumber))
+            {
+                filteredErrands = filteredErrands.Where(e => e.RefNumber.Contains(model.RefNumber));
+            }
+            else
+            {
+                if (!string.IsNullOrEmpty(model.SelectedStatus))
+                {
+                    filteredErrands = filteredErrands.Where(e => e.StatusName == model.SelectedStatus);
+                }
+                if (!string.IsNullOrEmpty(model.SelectedEmployee))
+                {
+                    filteredErrands = filteredErrands.Where(e => e.EmployeeName == model.SelectedEmployee);
+                }
+            }
+
+			if (filteredErrands.Count() == 0)
+			{
+				ViewBag.NoErrandsMessage = "Inga ärenden matchar din sökning";
+			}
+
+			model.ErrandStatuses = repository.ErrandStatuses.ToList();
+			model.Employees = repository.Employees.Where(emp => emp.DepartmentId == userDepartmentId).ToList();
+			model.Errands = filteredErrands;
+
+			return View(model);
+		}
+
+		[HttpPost]
         public IActionResult UpdateErrand(Errand model, bool NoAction, string Reason)
 		{
             int errandID = (int)TempData["ID"]!;

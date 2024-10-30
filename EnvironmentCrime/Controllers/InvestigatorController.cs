@@ -43,6 +43,38 @@ namespace EnvironmentCrime.Controllers
 			return View(viewModel);
         }
 
+        [HttpPost]
+        public IActionResult StartInvestigator(StartInvestigatorViewModel model)
+        {
+			var userName = contextAcc.HttpContext?.User?.Identity?.Name;
+			userName = repository.Employees.FirstOrDefault(e => e.EmployeeId == userName)?.EmployeeName;
+
+			var filteredErrands = repository.GetAllErrands()
+				.Where(e => e.EmployeeName == userName);
+
+			if (!string.IsNullOrEmpty(model.RefNumber))
+			{
+				filteredErrands = filteredErrands.Where(e => e.RefNumber.Contains(model.RefNumber));
+			}
+			else
+			{
+				if (!string.IsNullOrEmpty(model.SelectedStatus))
+				{
+					filteredErrands = filteredErrands.Where(e => e.StatusName == model.SelectedStatus);
+				}
+			}
+
+			if (filteredErrands.Count() == 0)
+			{
+				ViewBag.NoErrandsMessage = "Inga ärenden matchar din sökning";
+			}
+
+			model.ErrandStatuses = repository.ErrandStatuses.ToList();
+			model.Errands = filteredErrands;
+
+			return View(model);
+		}
+
 		[HttpPost]
         public async Task<IActionResult> UpdateErrand(Errand model,string InvestigatorAction,string InvestigatorInfo, IFormFile loadSample, IFormFile loadImage)
 		{

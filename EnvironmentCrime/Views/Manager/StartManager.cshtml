@@ -3,38 +3,36 @@
 <h2>Ärenden</h2>
 <p class="info">Du är inloggad som avdelningschef</p>
 
-<table id="managerForm">
-	<tr>
-		<td class="label">Välj status:</td>
-		<td class="label">Välj handläggare:</td>
-		<td>&nbsp;</td>
-		<td class="label">Ärendenummer:</td>
-		<td>&nbsp;</td>
-	</tr>
-	<tr>
+	<table id="managerForm">
+		<tr>
+			<td class="label">Välj status:</td>
+			<td class="label">Välj handläggare:</td>
+			<td>&nbsp;</td>
+			<td class="label">Ärendenummer:</td>
+			<td>&nbsp;</td>
+    </tr>
+    <tr>
+			<form asp-action="StartManager" method="post">
+        <td>
+                <select asp-for="SelectedStatus" asp-items="@(new SelectList(Model.ErrandStatuses, "StatusName", "StatusName"))">
+                    <option value="">Välj alla</option>
+                </select>
+        </td>
+        <td>
+                <select asp-for="SelectedEmployee" asp-items="@(new SelectList(Model.Employees, "EmployeeName", "EmployeeName"))">
+                    <option value="">Välj alla</option>
+                </select>
+        </td>
+        <td><input class="button" type="submit" value="Hämta lista" /></td>
+            </form>
+			<form asp-action="StartManager" method="post">
 		<td>
-			<select name="status">
-				<option selected="selected">Välj alla</option>
-				@foreach (ErrandStatus status in Model.ErrandStatuses!)
-				{
-					<option value="@status.StatusId">@status.StatusName</option>
-				})
-			</select>
+				<input asp-for="RefNumber" />
 		</td>
-		<td>
-			<select name="investigator">
-				<option selected="selected">Välj alla</option>
-				@foreach (Employee employee in Model.Employees!)
-				{
-					<option value="@employee.EmployeeId">@employee.EmployeeName</option>
-				})
-			</select>
-		</td>
-		<td><input class="button" type="submit" value="Hämta lista" /></td>
-		<td><input name="casenumber" /></td>
 		<td><input class="button" type="submit" value="Sök" /></td>
-	</tr>
-</table>
+			</form>
+    </tr>
+	</table>
 
 <!--Nedan ser man en lista på ärenden-->
 <table>
@@ -58,3 +56,7 @@
 		</tr>
 	}
 </table>
+@if (ViewBag.NoErrandsMessage != null)
+{
+	<p class="warning">@ViewBag.NoErrandsMessage</p>
+}
