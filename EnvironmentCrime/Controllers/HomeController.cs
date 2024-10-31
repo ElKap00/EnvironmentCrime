@@ -16,6 +16,9 @@ namespace EnvironmentCrime.Controllers
 			signInManager = signInMgr;
 		}
 
+		/// <summary>
+		/// Prepares the form either with the errand from the session or an empty errand.
+		/// </summary>
 		public ViewResult Index()
 		{
 			var errand = HttpContext.Session.Get<Errand>("CitizenErrand");
@@ -37,6 +40,12 @@ namespace EnvironmentCrime.Controllers
 			});
 		}
 
+		/// <summary>
+		/// Checks if the login is valid and redirects to the correct view.
+		/// Includes error messages if the login is invalid.
+		/// </summary>
+		/// <param name="loginModel"></param>
+		/// <returns>The correct view depending on the role of the employee.</returns>
 		[HttpPost]
 		[ValidateAntiForgeryToken]
 		public async Task<IActionResult> Login(LoginModel loginModel)

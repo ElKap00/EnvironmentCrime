@@ -22,6 +22,11 @@ namespace EnvironmentCrime.Models
 			return Task.Run(() => Errands.FirstOrDefault(e => e.ErrandID == id)!);
 		}
 
+		/// <summary>
+		/// Save or update an errand.
+		/// </summary>
+		/// <param name="errand"></param>
+		/// <returns> true if the errand was saved, false otherwise </returns>
 		public bool SaveErrand(Errand errand)
 		{
 			if (errand.ErrandID == 0)
@@ -67,6 +72,10 @@ namespace EnvironmentCrime.Models
 			context.SaveChanges();
 		}
 
+		/// <summary>
+		/// Get all errands with join on ErrandStatus, Department and Employee to get the names of the entities.
+		/// </summary>
+		/// <returns> IQueryable of ErrandViewModel </returns>
 		public IQueryable<ErrandViewModel> GetAllErrands()
 		{
 			var errandList = from err in context.Errands
@@ -96,6 +105,13 @@ namespace EnvironmentCrime.Models
 			return GetAllErrands().Where(e => e.RefNumber!.Contains(refNumber));
 		}
 
+		/// <summary>
+		/// Filter errands by status, department and employee.
+		/// </summary>
+		/// <param name="statusName"></param>
+		/// <param name="departmentName"></param>
+		/// <param name="employeeName"></param>
+		/// <returns> IQueryable of ErrandViewModel </returns>
 		public IQueryable<ErrandViewModel> FilterErrands(
 			string? statusName,
 			string? departmentName,

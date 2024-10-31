@@ -28,7 +28,12 @@ namespace EnvironmentCrime.Controllers
             return View();
         }
 
-        public ViewResult Thanks()
+
+		/// <summary>
+		/// Saves the errand in the database and shows the reference number.
+		/// Removes the errand from the session.
+		/// </summary>
+		public ViewResult Thanks()
         {
 			var errand = HttpContext.Session.Get<Errand>("CitizenErrand");
 			if (errand != null)
@@ -40,7 +45,11 @@ namespace EnvironmentCrime.Controllers
 			return View();
         }
 
-        [HttpPost]
+		/// <summary>
+		/// Validates and saves the errand in the session.
+		/// </summary>
+		/// <param name="errand">The errand to validate and save.</param>
+		[HttpPost]
 		public ViewResult Validate(Errand errand) 
         {
             HttpContext.Session.Set<Errand>("CitizenErrand", errand);
